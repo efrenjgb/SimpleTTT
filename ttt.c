@@ -3,38 +3,46 @@
 
 int analyze_board(char *node, int side)
 {	
+	//check win on rows for X
 	if(node[0]==side&&node[1]==side&&node[2]==side||
 		node[3]==side&&node[4]==side&&node[5]==side||
 		node[6]==side&&node[7]==side&&node[8]==side)
 		return 1;
 
+	//check win on columns for X
 	if(node[0]==side&&node[3]==side&&node[6]==side||
 		node[1]==side&&node[4]==side&&node[7]==side||
 		node[2]==side&&node[5]==side&&node[8]==side)
 		return 1;
 
+	//check win diagonals for X
 	if(node[0]==side&&node[4]==side&&node[8]==side||
 		node[2]==side&&node[4]==side&&node[6]==side)
 		return 1;
 
+	//check win on rows for O
 	if(node[0]==-side&&node[1]==-side&&node[2]==-side||
 	node[3]==-side&&node[4]==-side&&node[5]==-side||
 	node[6]==-side&&node[7]==-side&&node[8]==-side)
 		return -1;
 
+	//check win on columns for O
 	if(node[0]==-side&&node[3]==-side&&node[6]==-side||
 		node[1]==-side&&node[4]==-side&&node[7]==-side||
 		node[2]==-side&&node[5]==-side&&node[8]==-side)
 		return -1;
 
+	//check win diagonals for O
 	if(node[0]==-side&&node[4]==-side&&node[8]==-side||
 		node[2]==-side&&node[4]==-side&&node[6]==-side)
 		return -1;
 
+	//check if any square is empty, if true game is still in progress
 	for(int i=0;i<9;i++)
 		if(node[i]==0)
 			return -2;
 
+	//game is a draw, no wins and board full
 	return 0;
 }
 
@@ -71,6 +79,7 @@ int negamax(char *node, int depth, int side, int top)
 		return bestScore;
 }
 
+// get the best move depth = 9
 int get_move(char *node, int side)
 {
 	return negamax(node, 9, side, 1);
@@ -133,9 +142,7 @@ int main()
 
 	print_board(board);
 
-	int who = analyze_board(board, 1);
-
-	printf("%s", win_msg[who+1]);
+	printf("%s", win_msg[analyze_board(board, 1) + 1]);
 
 	return 0;
 }
